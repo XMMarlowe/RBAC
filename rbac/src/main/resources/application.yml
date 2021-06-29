@@ -18,12 +18,12 @@ spring:
 
 
 mybatis-plus:
-  # xml��ַ
+  # xml地址
   mapper-locations: classpath:mapper/*Mapper.xml
-  # ʵ��ɨ�裬���package�ö��Ż��߷ֺŷָ�
-  type-aliases-package: com.marlowe.music.entity   #�Լ���ʵ�����ַ
+  # 实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: com.marlowe.music.entity   #自己的实体类地址
   configuration:
-    # ������ûὫִ�е�sql��ӡ�������ڿ�������Ե�ʱ�������
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
