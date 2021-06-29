@@ -20,7 +20,12 @@ mybatis-plus:
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-
+# 自定义jwt配置
+self:
+  jwt:
+    secret: j4ctgjPqlLQ47votUkupQYR3j20kgw2e # 加密密钥
+    expire: 300000 # token有效时间 1*60*1000(ms) 5分钟 测试token失效
+    header: Authorization # 前端请求时, 请求头规定带上这个头部
 
 
 

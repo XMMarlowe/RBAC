@@ -2,14 +2,17 @@ package com.marlowe.rbac.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -21,32 +24,38 @@ import java.util.ArrayList;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-    /**
-     * 配置了Swagger的Docket的bean实例
-     *
-     * @return
-     */
     @Bean
-    public Docket docket() {
-
+    Docket docket() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .groupName("Marlowe")
-                // enable是否启动Swagger，如果为false，则swagger不能在浏览器中访问
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.marlowe.rbac.controller"))
+                .paths(PathSelectors.any())
+                .build()
+                .securityContexts(Arrays.asList(securityContexts()))
+                .securitySchemes(Arrays.asList(securitySchemes()))
+                .apiInfo(new ApiInfoBuilder()
+                        .description("RBAC API Documentation")
+                        .title("RBAC接口文档")
+                        .contact(new Contact("Marlowe","https://xmmarlowe.github.io","marlowe246@qq.com"))
+                        .version("v1.0")
+                        .license("Apache2.0")
+                        .build());
+    }
+    private SecurityScheme securitySchemes() {
+        return new ApiKey("Authorization", "Authorization", "header");
+    }
+
+    private SecurityContext securityContexts() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.any())
                 .build();
     }
 
-    public ApiInfo apiInfo() {
-
-        // 作者信息
-        Contact contact = new Contact("Marlowe", "https://xmmarlowe.github.io", "marlowe246@qq.com");
-
-        return new ApiInfo("RBAC API Documentation",
-                "Api Documentation",
-                "v1.0", "urn:tos",
-                contact, "Apache 2.0",
-                "http://www.apache.org/licenses/LICENSE-2.0", new ArrayList());
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("xxx", "描述信息");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
     }
 }

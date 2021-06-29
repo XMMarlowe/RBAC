@@ -18,16 +18,21 @@ spring:
 
 
 mybatis-plus:
-  # xmlµØÖ·
+  # xmlï¿½ï¿½Ö·
   mapper-locations: classpath:mapper/*Mapper.xml
-  # ÊµÌåÉ¨Ãè£¬¶à¸öpackageÓÃ¶ººÅ»òÕß·ÖºÅ·Ö¸ô
-  type-aliases-package: com.marlowe.music.entity   #×Ô¼ºµÄÊµÌåÀàµØÖ·
+  # Êµï¿½ï¿½É¨ï¿½è£¬ï¿½ï¿½ï¿½packageï¿½Ã¶ï¿½ï¿½Å»ï¿½ï¿½ß·ÖºÅ·Ö¸ï¿½
+  type-aliases-package: com.marlowe.music.entity   #ï¿½Ô¼ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½Ö·
   configuration:
-    # Õâ¸öÅäÖÃ»á½«Ö´ĞĞµÄsql´òÓ¡³öÀ´£¬ÔÚ¿ª·¢»ò²âÊÔµÄÊ±ºò¿ÉÒÔÓÃ
+    # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»á½«Ö´ï¿½Ğµï¿½sqlï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
-
+# è‡ªå®šä¹‰jwté…ç½®
+self:
+  jwt:
+    secret: j4ctgjPqlLQ47votUkupQYR3j20kgw2e # åŠ å¯†å¯†é’¥
+    expire: 300000 # tokenæœ‰æ•ˆæ—¶é—´ 1*60*1000(ms) 5åˆ†é’Ÿ æµ‹è¯•tokenå¤±æ•ˆ
+    header: Authorization # å‰ç«¯è¯·æ±‚æ—¶, è¯·æ±‚å¤´è§„å®šå¸¦ä¸Šè¿™ä¸ªå¤´éƒ¨
 
 
 
