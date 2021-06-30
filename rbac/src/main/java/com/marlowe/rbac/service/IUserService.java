@@ -33,6 +33,38 @@ public interface IUserService extends IService<User> {
      */
     boolean register(User user);
 
+    /**
+     * 添加用户
+     *
+     * @param user
+     * @return
+     */
+    boolean addUser(User user);
+
+    /**
+     * 根据id删除用户
+     *
+     * @param id
+     * @return
+     */
+    boolean deleteUserById(Integer id);
+
+    /**
+     * 批量删除用户
+     *
+     * @param ids
+     * @return
+     */
+    boolean deleteUserByIds(List<Integer> ids);
+
+
+    /**
+     * 根据主键id查找用户
+     *
+     * @param id
+     * @return
+     */
+    User findUserById(Integer id);
 
     /**
      * 根据 username 查询用户
@@ -52,36 +84,14 @@ public interface IUserService extends IService<User> {
      */
     PageInfo<User> findAll(int pageNo, int pageSize);
 
-    /**
-     * 根据id删除用户
-     *
-     * @param id
-     * @return
-     */
-    boolean deleteUserById(int id);
 
     /**
-     * 批量删除用户
-     *
-     * @param ids
-     * @return
-     */
-    boolean deleteUserByIds(List<Integer> ids);
-
-    /**
-     * 根据主键id查找用户
-     *
-     * @param id
-     * @return
-     */
-    User findUserById(Integer id);
-
-    /**
-     * 添加用户
+     * 更新用户信息
      *
      * @param user
      * @return
      */
-    boolean addUser(User user);
+    boolean updateUser(User user);
+
 
 }

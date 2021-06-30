@@ -109,14 +109,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     /**
+     * 根据主键id更新用户信息
+     *
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean updateUser(User user) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id", user.getId());
+        int update = userMapper.update(user, queryWrapper);
+        return update > 0;
+    }
+
+    /**
      * 根据id删除用户
      *
      * @param id
      * @return
      */
     @Override
-    public boolean deleteUserById(int id) {
-        return false;
+    public boolean deleteUserById(Integer id) {
+        return userMapper.deleteById(id) > 0;
     }
 
     /**
@@ -127,7 +141,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      */
     @Override
     public boolean deleteUserByIds(List<Integer> ids) {
-        return false;
+        return userMapper.deleteBatchIds(ids) > 0;
     }
 
     /**
