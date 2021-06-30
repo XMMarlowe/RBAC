@@ -76,4 +76,12 @@ public interface IUserService extends IService<User> {
      */
     User findUserById(Integer id);
 
+    /**
+     * 添加用户
+     *
+     * @param user
+     * @return
+     */
+    boolean addUser(User user);
+
 }

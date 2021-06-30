@@ -37,9 +37,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      */
     @Override
     public User login(String username, String password) {
+        // 将密码进行注册时同样的加密
 
-
-        return null;
+        // 查找用户的盐值
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", username);
+        User tmpUser = userMapper.selectOne(wrapper);
+        // 如果用户名存在
+        String salt = "";
+        if (tmpUser != null) {
+            salt = tmpUser.getSalt();
+        }
+        // 2. 明文密码进行md5 + salt + hash散列
+        Md5Hash md5Hash = new Md5Hash(password, salt, 1024);
+        password = md5Hash.toHex();
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username).eq("password", password);
+        User user = userMapper.selectOne(queryWrapper);
+        return user;
     }
 
     /**
@@ -124,6 +139,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public User findUserById(Integer id) {
         return userMapper.selectById(id);
+    }
+
+    /**
+     * 添加用户
+     *
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean addUser(User user) {
+        return userMapper.insert(user) > 0;
     }
 
 }

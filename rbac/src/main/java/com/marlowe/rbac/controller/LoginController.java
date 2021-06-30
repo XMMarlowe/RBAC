@@ -56,13 +56,17 @@ public class LoginController {
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             return Result.ok("请输入用户名和密码！");
         }
-        User user = userService.findUserByUsername(username);
+        // 根据加密时候的加密规则
+        // 通过账户密码查询用户
+
+        User user = userService.login(username, password);
         if (user == null) {
             return Result.ok("用户名或密码错误!");
         }
         // 返回token
         return Result.ok(jwtUtils.sign(username, jwtUtils.getSecret()));
     }
+
 
     /**
      * 用户注册
@@ -90,14 +94,14 @@ public class LoginController {
     @GetMapping("/logout")
     public Result logout() {
         Subject subject = SecurityUtils.getSubject();
-        String username = (String) subject.getPrincipal();
+        System.out.println(subject.getPrincipal());
+        User user = (User) subject.getPrincipal();
         if (subject.isAuthenticated()) {
             // session 会销毁，在SessionListener监听session销毁，清理权限缓存
             subject.logout();
         }
-        return Result.ok("用户" + username + "退出登录");
+        return Result.ok("用户" + user.getUsername() + "退出登录");
     }
-
 
 
 }
