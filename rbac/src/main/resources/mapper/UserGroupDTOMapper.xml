@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marlowe.rbac.mapper.UserGroupDTOMapper">
+
+    <select id="findGroupsByUserId" resultType="com.marlowe.rbac.entity.dto.UserGroupDTO">
+        SELECT ug.id groupId,ug.name groupName
+        FROM user u
+        LEFT JOIN user_group_item ugi
+        ON u.id = ugi.user_id
+        LEFT JOIN user_group ug
+        ON ug.id = ugi.user_group_id
+        WHERE
+        u.id = #{id}
+    </select>
+</mapper>

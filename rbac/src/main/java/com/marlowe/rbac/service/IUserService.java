@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.marlowe.rbac.entity.Role;
 import com.marlowe.rbac.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.marlowe.rbac.entity.dto.UserGroupDTO;
+import com.marlowe.rbac.entity.dto.UserRoleDTO;
 
 import java.util.List;
 
@@ -77,6 +79,7 @@ public interface IUserService extends IService<User> {
 
     /**
      * 通过id查询用户详细信息
+     *
      * @param id
      * @return
      */
@@ -108,6 +111,24 @@ public interface IUserService extends IService<User> {
      * @return
      */
     User findRolesByUserName(String username);
+
+
+    /**
+     * 通过userId查询用户角色信息
+     *
+     * @param id
+     * @return
+     */
+    List<UserRoleDTO> findRolesByUserId(Integer id);
+
+
+    /**
+     * 通过userId查询用户部门信息
+     *
+     * @param id
+     * @return
+     */
+    List<UserGroupDTO> findGroupsByUserId(Integer id);
 
 
 }

@@ -6,7 +6,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.marlowe.rbac.entity.Role;
 import com.marlowe.rbac.entity.User;
+import com.marlowe.rbac.entity.dto.UserGroupDTO;
+import com.marlowe.rbac.entity.dto.UserRoleDTO;
+import com.marlowe.rbac.mapper.UserGroupDTOMapper;
 import com.marlowe.rbac.mapper.UserMapper;
+import com.marlowe.rbac.mapper.UserRoleDTOMapper;
 import com.marlowe.rbac.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -28,6 +32,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UserRoleDTOMapper userRoleDTOMapper;
+
+    @Autowired
+    private UserGroupDTOMapper userGroupDTOMapper;
 
     /**
      * 用户登录
@@ -138,6 +148,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public User findRolesByUserName(String username) {
         return userMapper.findRolesByUserName(username);
+    }
+
+    /**
+     * 通过userId查询用户角色信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public List<UserRoleDTO> findRolesByUserId(Integer id) {
+        return userRoleDTOMapper.findRolesByUserId(id);
+    }
+
+    /**
+     * 通过userId查询用户部门信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public List<UserGroupDTO> findGroupsByUserId(Integer id) {
+        return userGroupDTOMapper.findGroupsByUserId(id);
     }
 
     /**

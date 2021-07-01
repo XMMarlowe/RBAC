@@ -8,13 +8,19 @@ import java.io.Serializable;
  * @program: RBAC
  * @description:
  * @author: Marlowe
- * @create: 2021-06-29 11:43
+ * @create: 2021-07-01 15:19
  **/
 @Data
-public class UserLogin implements Serializable {
+public class UserGroupDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private String username;
+    /**
+     * 部门id
+     */
+    private Integer groupId;
 
-    private String password;
+    /**
+     * 部门名称
+     */
+    private String groupName;
 }

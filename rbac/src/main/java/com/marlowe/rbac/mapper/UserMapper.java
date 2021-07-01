@@ -62,4 +62,6 @@ public interface UserMapper extends BaseMapper<User> {
      */
     User findUserDetailById(Integer id);
 
+
+
 }
