@@ -1,8 +1,11 @@
 package com.marlowe.rbac.service;
 
 import com.github.pagehelper.PageInfo;
+import com.marlowe.rbac.entity.Permission;
 import com.marlowe.rbac.entity.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -57,4 +60,12 @@ public interface IRoleService extends IService<Role> {
      * @return
      */
     boolean updateRoleById(Role role);
+
+    /**
+     * 根据角色id查询角色拥有的权限
+     *
+     * @param id
+     * @return
+     */
+    List<Permission> findPermissionsByRoleId(Integer id);
 }

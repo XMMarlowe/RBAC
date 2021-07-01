@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
@@ -59,6 +60,10 @@ public class User implements Serializable {
     @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "最后一次登录时间")
     private LocalDateTime lastLoginTime;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "定义角色集合")
+    private List<Role> roles;
 
 
 }

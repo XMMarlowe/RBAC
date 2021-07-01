@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.marlowe.rbac.entity.Role;
 import com.marlowe.rbac.entity.User;
 import com.marlowe.rbac.mapper.UserMapper;
 import com.marlowe.rbac.service.IUserService;
@@ -40,9 +41,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         // 将密码进行注册时同样的加密
 
         // 查找用户的盐值
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("username", username);
-        User tmpUser = userMapper.selectOne(wrapper);
+
+        User tmpUser = userMapper.findByUserName(username);
         // 如果用户名存在
         String salt = "";
         if (tmpUser != null) {
@@ -51,9 +51,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         // 2. 明文密码进行md5 + salt + hash散列
         Md5Hash md5Hash = new Md5Hash(password, salt, 1024);
         password = md5Hash.toHex();
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username", username).eq("password", password);
-        User user = userMapper.selectOne(queryWrapper);
+        User user = userMapper.findByUserNameAndPassword(username, password);
         return user;
     }
 
@@ -83,10 +81,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      */
     @Override
     public User findUserByUsername(String username) {
-        QueryWrapper<User> queryWrapper = new QueryWrapper();
-        queryWrapper.eq("username", username);
-        User user = userMapper.selectOne(queryWrapper);
+        User user = userMapper.findByUserName(username);
         return user;
+    }
+
+    /**
+     * 通过id查询用户详细信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public User findUserDetailById(Integer id) {
+        return null;
     }
 
     /**
@@ -120,6 +127,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         queryWrapper.eq("id", user.getId());
         int update = userMapper.update(user, queryWrapper);
         return update > 0;
+    }
+
+    /**
+     * 通过用户名查询角色信息
+     *
+     * @param username
+     * @return
+     */
+    @Override
+    public User findRolesByUserName(String username) {
+        return userMapper.findRolesByUserName(username);
     }
 
     /**

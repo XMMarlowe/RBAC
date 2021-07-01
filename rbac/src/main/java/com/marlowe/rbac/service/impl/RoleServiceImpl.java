@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.marlowe.rbac.entity.Page;
+import com.marlowe.rbac.entity.Permission;
 import com.marlowe.rbac.entity.Role;
 import com.marlowe.rbac.mapper.RoleMapper;
 import com.marlowe.rbac.service.IRoleService;
@@ -88,5 +89,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         QueryWrapper<Role> queryWrapper = new QueryWrapper();
         queryWrapper.eq("id", role.getId());
         return roleMapper.update(role, queryWrapper) > 0;
+    }
+
+    /**
+     * 根据角色id查询角色拥有的权限
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Permission> findPermissionsByRoleId(Integer id) {
+        return roleMapper.findPermissionsByRoleId(id);
     }
 }

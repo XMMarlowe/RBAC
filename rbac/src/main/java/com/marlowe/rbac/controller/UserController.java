@@ -7,6 +7,7 @@ import com.marlowe.rbac.entity.User;
 import com.marlowe.rbac.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,7 @@ public class UserController {
      */
     @ApiOperation("添加用户")
     @PostMapping("add")
+    @RequiresPermissions("user:add")
     public Result addUser(@RequestBody User user) {
         boolean addUser = userService.addUser(user);
         if (addUser) {
@@ -54,6 +56,7 @@ public class UserController {
      */
     @ApiOperation("通过id删除用户")
     @GetMapping("delete/{id}")
+    @RequiresPermissions("user:delete")
     public Result deleteUser(@PathVariable Integer id) {
         boolean deleteUserById = userService.deleteUserById(id);
         if (deleteUserById) {
@@ -71,6 +74,7 @@ public class UserController {
      */
     @ApiOperation(value = "批量删除用户")
     @PostMapping("deletes")
+    @RequiresPermissions("user:delete")
     public Result deleteUsers(@RequestBody List<Integer> ids) {
         boolean deleteUserByIds = userService.deleteUserByIds(ids);
         if (deleteUserByIds) {
@@ -89,9 +93,15 @@ public class UserController {
      */
     @ApiOperation("查询所有用户")
     @GetMapping("all_users/{pageNo}/{pageSize}")
+    @RequiresPermissions("user:findAll")
     public Result<List<User>> findAll(@PathVariable int pageNo, @PathVariable int pageSize) {
         PageInfo<User> pageInfo = userService.findAll(pageNo, pageSize);
         List<User> users = pageInfo.getList();
+        // 将用户敏感信息设置为空
+        users.forEach(user -> {
+            user.setPassword("");
+            user.setSalt("");
+        });
         return Result.ok(users);
     }
 
@@ -104,8 +114,27 @@ public class UserController {
      */
     @ApiOperation(value = "通过id查找用户")
     @GetMapping("{id}")
-    public Result findUserById(@PathVariable Integer id) {
+    public Result<User> findUserById(@PathVariable Integer id) {
         User user = userService.findUserById(id);
+        // 将用户敏感信息设置为空
+        user.setPassword("");
+        user.setSalt("");
+        return Result.ok(user);
+    }
+
+    /**
+     * 通过用户名查找用户
+     *
+     * @param username
+     * @return
+     */
+    @ApiOperation(value = "通过用户名查找用户")
+    @GetMapping("detail_name/{username}")
+    public Result<User> findUserByUsername(@PathVariable String username) {
+        User user = userService.findUserByUsername(username);
+        // 将用户敏感信息设置为空
+        user.setPassword("");
+        user.setSalt("");
         return Result.ok(user);
     }
 

@@ -1,6 +1,7 @@
 package com.marlowe.rbac.service;
 
 import com.github.pagehelper.PageInfo;
+import com.marlowe.rbac.entity.Role;
 import com.marlowe.rbac.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -74,6 +75,13 @@ public interface IUserService extends IService<User> {
      */
     User findUserByUsername(String username);
 
+    /**
+     * 通过id查询用户详细信息
+     * @param id
+     * @return
+     */
+    User findUserDetailById(Integer id);
+
 
     /**
      * 查询所有用户
@@ -92,6 +100,14 @@ public interface IUserService extends IService<User> {
      * @return
      */
     boolean updateUser(User user);
+
+    /**
+     * 通过用户名查询角色信息
+     *
+     * @param username
+     * @return
+     */
+    User findRolesByUserName(String username);
 
 
 }

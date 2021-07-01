@@ -2,4 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.marlowe.rbac.mapper.RoleMapper">
 
+    <resultMap id="RoleMap" type="com.marlowe.rbac.entity.Role">
+        <id column="rid" property="id"/>
+        <result column="rname" property="name"/>
+        <!--角色信息-->
+        <collection property="permissions" javaType="list" ofType="com.marlowe.rbac.entity.Role">
+            <result column="name" property="name"/>
+            <result column="code" property="code"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="findPermissionsByRoleId" resultType="com.marlowe.rbac.entity.Permission">
+    select r.id rid,r.name rname,p.name,p.code from role r
+        left join role_permission rp
+        on r.id = rp.role_id
+        left join permission p
+        on rp.permission_id = p.id
+        where r.id = #{id}
+    </select>
+
 </mapper>

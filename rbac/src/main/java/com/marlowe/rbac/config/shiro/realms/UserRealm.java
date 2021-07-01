@@ -1,18 +1,24 @@
 package com.marlowe.rbac.config.shiro.realms;
 
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.marlowe.rbac.config.shiro.jwt.JWTToken;
+import com.marlowe.rbac.entity.Permission;
 import com.marlowe.rbac.entity.User;
+import com.marlowe.rbac.service.IRoleService;
 import com.marlowe.rbac.service.IUserService;
 import com.marlowe.rbac.utils.JWTUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @auther yincaiTA
@@ -24,6 +30,9 @@ public class UserRealm extends AuthorizingRealm {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IRoleService roleService;
 
     @Autowired
     private JWTUtils jwtUtils;
@@ -45,21 +54,32 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-//        // 获取从认证过程保留的 user 对象
-//        User user = (User) principals.getPrimaryPrincipal();
-//
-//        // 获取角色和权限信息
-//        String[] roles = user.getRoles().split(",");
-//        String[] permissions = user.getPermissions().split(",");
-//
-//        // 创建授权信息对象
-//        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-//
-//        // 添加角色和权限字符串
-//        authorizationInfo.addRoles(Arrays.asList(roles));
-//        authorizationInfo.addStringPermissions(Arrays.asList(permissions));
+        //获取身份信息
+        User user = (User) principals.getPrimaryPrincipal();
+        System.out.println("调用授权验证：" + user.getUsername());
+        // 根据主身份信息获取角色和权限信息
+        User realUser = userService.findRolesByUserName(user.getUsername());
+        // 授权角色信息
+        if (!CollectionUtil.isEmpty(realUser.getRoles())) {
+            //权限信息对象info,用来存放查出的用户的所有的角色（Role）及权限（permission）
+            SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+            System.out.println(realUser.getRoles()+"-------------------------");
+            realUser.getRoles().forEach(role -> {
+                // 添加角色信息
+                simpleAuthorizationInfo.addRole(role.getName());
+                System.out.println(role.getName()+"================================");
 
-//        return authorizationInfo;
+                 //添加权限信息
+                List<Permission> permissions = roleService.findPermissionsByRoleId(role.getId());
+                if (!CollectionUtil.isEmpty(permissions)) {
+                    permissions.forEach(permission -> {
+                        simpleAuthorizationInfo.addStringPermission(permission.getName());
+                        System.out.println(permission.getName()+"==============AAAAAAAAAA==================");
+                    });
+                }
+            });
+            return simpleAuthorizationInfo;
+        }
         return null;
     }
 

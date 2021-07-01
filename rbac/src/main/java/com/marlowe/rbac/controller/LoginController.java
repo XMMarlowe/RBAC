@@ -77,6 +77,13 @@ public class LoginController {
     @ApiOperation("用户注册")
     @PostMapping("/register")
     public Result register(@RequestBody User user) {
+
+        // 根据用户名查询用户，判断该用户是否注册
+        User userByUsername = userService.findUserByUsername(user.getUsername());
+        if (userByUsername != null) {
+            return Result.ok("该用户已注册，请登录");
+        }
+
         boolean register = userService.register(user);
         if (register) {
             return Result.ok("注册成功");

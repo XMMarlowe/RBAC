@@ -1,7 +1,10 @@
 package com.marlowe.rbac.mapper;
 
+import com.marlowe.rbac.entity.Permission;
 import com.marlowe.rbac.entity.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,13 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-06-26
  */
 public interface RoleMapper extends BaseMapper<Role> {
+
+    /**
+     * 通过角色id查找权限信息
+     *
+     * @param id
+     * @return
+     */
+    List<Permission> findPermissionsByRoleId(Integer id);
 
 }

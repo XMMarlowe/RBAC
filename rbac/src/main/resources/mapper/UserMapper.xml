@@ -2,4 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.marlowe.rbac.mapper.UserMapper">
 
+    <resultMap id="userMap" type="com.marlowe.rbac.entity.User">
+        <id column="uid" property="id"/>
+        <result column="username" property="username"/>
+        <!--角色信息-->
+        <collection property="roles" javaType="list" ofType="com.marlowe.rbac.entity.Role">
+            <id column="rid" property="id"/>
+            <result column="rname" property="name"/>
+        </collection>
+    </resultMap>
+
+    <select id="findByUserName" resultType="com.marlowe.rbac.entity.User">
+        select * from user where username = #{username}
+    </select>
+    <select id="findByUserNameAndPassword" resultType="com.marlowe.rbac.entity.User">
+        select * from user where username = #{username} and password = #{password}
+    </select>
+    <select id="findAll" resultType="com.marlowe.rbac.entity.User">
+        select * from user
+    </select>
+    <select id="findById" resultType="com.marlowe.rbac.entity.User">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="findRolesByUserName" parameterType="string" resultMap="userMap">
+        SELECT u.id uid,u.username,r.id rid,r.NAME rname
+        FROM user u
+        LEFT JOIN user_role ur
+        ON u.id = ur.user_id
+        LEFT JOIN role r
+        ON ur.role_id = r.id
+        WHERE
+        u.username = #{username}
+    </select>
+
+    <select id="findUserDetailById" resultType="com.marlowe.rbac.entity.User">
+
+    </select>
 </mapper>
