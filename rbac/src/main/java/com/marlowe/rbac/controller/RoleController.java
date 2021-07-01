@@ -7,6 +7,7 @@ import com.marlowe.rbac.entity.Page;
 import com.marlowe.rbac.entity.Role;
 import com.marlowe.rbac.service.IPageService;
 import com.marlowe.rbac.service.IRoleService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.util.List;
  * @author marlowe
  * @since 2021-06-26
  */
+@Api(tags = "角色管理控制器")
 @RestController
 @RequestMapping("/role")
 public class RoleController {

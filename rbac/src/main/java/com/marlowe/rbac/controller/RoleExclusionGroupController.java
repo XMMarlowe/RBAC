@@ -5,9 +5,11 @@ import com.github.pagehelper.PageInfo;
 import com.marlowe.rbac.commons.result.Result;
 import com.marlowe.rbac.entity.Role;
 import com.marlowe.rbac.entity.RoleExclusionGroup;
+import com.marlowe.rbac.entity.RoleExclusionGroupItem;
 import com.marlowe.rbac.service.IRoleExclusionGroupItemService;
 import com.marlowe.rbac.service.IRoleExclusionGroupService;
 import com.marlowe.rbac.service.IRoleService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import java.util.List;
  * @author marlowe
  * @since 2021-06-30
  */
+@Api(tags = "角色互斥组管理控制器")
 @RestController
 @RequestMapping("/roleExclusionGroup")
 public class RoleExclusionGroupController {
@@ -71,7 +74,7 @@ public class RoleExclusionGroupController {
      */
     @ApiOperation(value = "根据id查找角色互斥组")
     @GetMapping("detail/{id}")
-    public Result<Role> findButtonById(@PathVariable Integer id) {
+    public Result<RoleExclusionGroup> findButtonById(@PathVariable Integer id) {
         RoleExclusionGroup roleExclusionGroup = roleExclusionGroupService.findById(id);
         return Result.ok(roleExclusionGroup);
     }
@@ -85,7 +88,7 @@ public class RoleExclusionGroupController {
      */
     @ApiOperation(value = "查询所有角色互斥组")
     @GetMapping("all_role_exclusion_groups/{pageNo}/{pageSize}")
-    public Result<List<Role>> allPages(@PathVariable int pageNo, @PathVariable int pageSize) {
+    public Result<List<RoleExclusionGroup>> allPages(@PathVariable int pageNo, @PathVariable int pageSize) {
         PageInfo<RoleExclusionGroup> pageInfo = roleExclusionGroupService.findAll(pageNo, pageSize);
         List<RoleExclusionGroup> roleExclusionGroups = pageInfo.getList();
         return Result.ok(roleExclusionGroups);
