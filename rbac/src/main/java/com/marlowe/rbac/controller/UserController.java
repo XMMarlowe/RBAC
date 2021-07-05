@@ -74,9 +74,9 @@ public class UserController {
     public Result deleteUser(@PathVariable Integer id) {
         boolean deleteUserById = userService.deleteUserById(id);
         if (deleteUserById) {
-            return Result.ok("添加成功");
+            return Result.ok("删除成功");
         } else {
-            return Result.ok("添加失败");
+            return Result.ok("删除失败");
         }
     }
 
