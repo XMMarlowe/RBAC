@@ -5,9 +5,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://120.55.66.50:3306/rbac?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
-    username: root
-    password: springbird123
+    url: jdbc:mysql://xxx/xxx?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+    username: xxx
+    password: xxx
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: localhost
@@ -26,7 +26,7 @@ mybatis-plus:
 # 自定义jwt配置
 self:
   jwt:
-    secret: j4ctgjPqlLQ47votUkupQYR3j20kgw2e # 加密密钥
+    secret: xxx # 加密密钥
     expire: 300000 # token有效时间 1*60*1000(ms) 5分钟 测试token失效
     header: Authorization # 前端请求时, 请求头规定带上这个头部
 
